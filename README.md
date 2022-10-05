@@ -1,2 +1,2 @@
-# makov-chain
+# markov-chain
  implementation of markov chain
