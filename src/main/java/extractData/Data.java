@@ -7,7 +7,7 @@ import java.util.*;
 
 public class Data {
 
-    public static String txtName = "demo.txt";
+    public static String txtName = "english.txt";
     public static String jsonName = "probabilities.json";
     public static String txtPath = "src/main/java/data/txt/english/"+ txtName;
     public static String jsonPath = "src/main/java/data/" + jsonName;
@@ -49,7 +49,6 @@ public class Data {
             throw new RuntimeException(e);
         }
     }
-
 
     private static void init_with_txt() {
         List<String> mots = mots();
@@ -135,8 +134,42 @@ public class Data {
         writer.close();
     }
 
-    public static void main(String[] args) {
-        init();
-        //writeJSON();
+    public static void createListingJson(){
+
+        String resultPath = "src/main/java/data/json/";
+
+        File folder = new File("src/main/java/data/txt");
+        File temp_1;
+        File temp_2;
+
+        if (!folder.isDirectory())
+            throw new Error("file is not a folder");
+
+
+        for (File f : Arrays.asList(folder.listFiles())){
+            String folderName = f.toString().split("\\\\")[5];
+            System.out.println(folderName);
+
+            temp_1 = new File(f.toString() + "/" + folderName + "_files_used.json");
+            try {
+                temp_1.createNewFile();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            temp_2 = new File(resultPath + folderName + ".json");
+            try {
+                temp_2.createNewFile();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
+
+    public static void main(String[] args) {
+        //init();
+        //writeJSON();
+        createListingJson();
+    }
+
+
 }
