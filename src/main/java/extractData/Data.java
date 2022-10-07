@@ -35,9 +35,9 @@ public class Data {
 
     private static List<String> mots() {
         // Le fichier d'entrée
-        File file = new File("src/data/data.txt");
+        File file = new File("src/main/java/data/data.txt");
         // Créer l'objet File Reader
-        FileReader fr = null;
+        FileReader fr;
         try {
             fr = new FileReader(file);
         } catch (FileNotFoundException e) {
@@ -45,7 +45,7 @@ public class Data {
         }
         // Créer l'objet BufferedReader
         BufferedReader br = new BufferedReader(fr);
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         String line;
         while (true) {
             try {
