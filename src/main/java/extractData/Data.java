@@ -3,18 +3,17 @@ package extractData;
 import com.google.gson.*;
 
 import java.io.*;
+import java.lang.reflect.Type;
 import java.util.*;
 
 public class Data {
 
     public static String txtName = "demo.txt";
     public static String jsonName = "probabilities.json";
-    public static String txtPath = "src/main/java/data/txt/english/"+ txtName;
-    public static String jsonPath = "src/main/java/data/" + jsonName;
 
-    public static final JsonObject json_relations = new JsonObject();
 
-    public static final HashMap<String, HashMap<String, Integer>> relations = new HashMap<>();
+    public static HashMap<String, JsonObject> multiLanguagesRelationsJsonObject = new HashMap<>();
+    public static HashMap<String, HashMap<String, HashMap<String, Integer>>> multiLanguagesRelationsHashMap = new HashMap<>();
 
 
     /*
@@ -144,13 +143,6 @@ public class Data {
 
     }
 
-    private static void init_with_json(){
-        Gson gson = new Gson();
-        JsonObject obj = (JsonObject) getJsonObjectFromFile(new File(jsonPath));
-        Set<Map.Entry<String, JsonElement>> s = obj.entrySet();
-        //System.out.println(s);
-    }
-
     private static List<String> mots(File file) {
 
         FileReader fr;
@@ -260,6 +252,8 @@ public class Data {
                 }
                 // on ajoute a cet objet tous les fichiers textes non ajoutes au prealable
             }
+            JsonObject varToInitArgument = getJsonObjectFromFile(json_probas_file);
+            multiLanguagesRelationsJsonObject.put(folderName, varToInitArgument);
         }
     }
 
@@ -274,10 +268,12 @@ public class Data {
         return false;
     }
 
+
+
+
     public static void init(){
         createListingJson();
         addTexts();
-
     }
 
     private static List<File> jsonArrayToList(JsonArray arr){
@@ -292,7 +288,6 @@ public class Data {
         double t1 = System.currentTimeMillis();
         init();
         double t2 = System.currentTimeMillis();
-
-        System.out.println(json_relations);
+        System.out.println("temps d'execution : " + (t2-t1)/1000 + " s");
     }
 }

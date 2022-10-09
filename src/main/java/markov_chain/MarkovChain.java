@@ -1,35 +1,46 @@
-package main;
+package markov_chain;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import extractData.Data;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 public class MarkovChain {
 
-    // private HashMap<String, Integer> indices_probas = new HashMap<>();
+    
 
-
-    private static String generate_recursive(String firstWord, int numberOfWords){
+    private static String generate_recursive(String language, String firstWord, int numberOfWords){
 
         if (numberOfWords <= 0)
             return "";
 
+
+        JsonObject relations;
+        try{
+            relations = Data.multiLanguagesRelationsJsonObject.get(language);
+        } catch (Exception e) {
+            throw new Error("language " + language + " does not exist.");
+        }
+
+
         HashMap<ArrayList<Integer>, String> indices_probas = new HashMap<>();
 
-        if(!Data.relations.containsKey(firstWord))
-            throw new Error("le mot " + firstWord + " n'existe pas dans les données");
 
-        HashMap<String, Integer> start = Data.relations.get(firstWord);
+        if(!relations.keySet().contains(firstWord))
+            throw new Error("word " + firstWord + " does no exist in data files");
 
-        Set<String> s = Data.relations.get(firstWord).keySet();
+
+        JsonObject start = (JsonObject) relations.get(firstWord);
+
+        Set<String> s = start.keySet();
 
         int somme = 0;
         for (String i : s){
             int old_somme = somme+1;
-            somme += Data.relations.get(firstWord).get(i)+1;
+            Integer firstStep = Integer.parseInt(start.get(i).toString());
+
+            somme += firstStep;
             ArrayList<Integer> intervalle = new ArrayList<>();
             intervalle.add(old_somme);
             intervalle.add(somme);
@@ -48,23 +59,22 @@ public class MarkovChain {
             }
         }
 
-        return nextWord + " " + generate_recursive(nextWord, numberOfWords-1);
+        return nextWord + " " + generate_recursive(language, nextWord, numberOfWords-1);
     }
-
-    private static String generate(String firstWord, int numberOfWords){
-        return firstWord + generate_recursive(firstWord, numberOfWords-1);
+    private static String generate(String language, String firstWord, int numberOfWords){
+        return firstWord + generate_recursive(language, firstWord, numberOfWords-1);
     }
     public static void main(String[] args) {
         Data.init();
         Scanner sc = new Scanner(System.in);
-
+        String language = "english";
         while (true){
             System.out.println("premier mot : ");
             String response_1 = sc.next();
             System.out.println("nombre de mots : ");
             String response_2 = sc.next();
 
-            System.out.println("\n" + generate(response_1, Integer.parseInt(response_2)));
+            System.out.println("\n" + generate(language, response_1, Integer.parseInt(response_2)));
             System.out.println("\n\n");
         }
     }
