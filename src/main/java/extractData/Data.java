@@ -10,10 +10,6 @@ import formatter.FlexibleFormatter;
 
 public class Data {
 
-    public static String txtName = "demo.txt";
-    public static String jsonName = "probabilities.json";
-
-
     public static HashMap<String, JsonObject> multiLanguagesRelationsJsonObject = new HashMap<>();
     public static HashMap<String, HashMap<String, HashMap<String, Integer>>> multiLanguagesRelationsHashMap = new HashMap<>();
 
@@ -110,7 +106,7 @@ public class Data {
     }
 
     private static void updateJsonFileWithTextFile(File jsonFile, File textFile){
-        JsonObject start = (JsonObject) getJsonObjectFromFile(jsonFile);
+        JsonObject start = getJsonObjectFromFile(jsonFile);
         updateJsonObjectWithTextFile(start, textFile);
         overWriteJSON(jsonFile, start.toString());
     }
@@ -133,7 +129,7 @@ public class Data {
                 }
                 // si il le contient, on augmente sa valeur
                 else {
-                    Integer temp = current.get(mots.get(i+1)).getAsInt();
+                    int temp = current.get(mots.get(i+1)).getAsInt();
                     temp = temp+1;
                     current.addProperty(mots.get(i+1), temp);
                 }
@@ -214,7 +210,7 @@ public class Data {
         for (File f : importantPackages()){
             String folderName = f.getName();
 
-            temp_1 = new File(f.toString() + "/" + folderName + "_files_used.json");
+            temp_1 = new File(f + "/" + folderName + "_files_used.json");
             try {
                 temp_1.createNewFile();
             } catch (IOException e) {
@@ -237,14 +233,14 @@ public class Data {
 
             String folderName = file.getName();
 
-            File savedFiles = new File(file.toString() + "/" + folderName + "_files_used.json");
+            File savedFiles = new File(file + "/" + folderName + "_files_used.json");
             JsonArray ja = getJsonArrayFromFile(savedFiles);
             List<File> settedFiles = jsonArrayToList(ja);
 
             String jsonProbaPath = "src/main/java/data/json/";
             File json_probas_file = new File(jsonProbaPath + folderName + ".json");
 
-            JsonObject jo = (JsonObject) getJsonObjectFromFile(json_probas_file);
+            JsonObject jo = getJsonObjectFromFile(json_probas_file);
 
             for (File child : childs){
                 // on s'interesse aux fichiers textes

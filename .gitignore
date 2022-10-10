@@ -1,10 +1,4 @@
 src/main/java/data/txt/english/english.txt
-*.json
 *.txt
-*.json
-src/main/java/data/data.txt
-src/main/java/data/txt/english/demo.txt
-src/main/java/data/probabilities.json
-out/production/markov-chain/data/probabilities.json
-out/production/markov-chain/data/data.txt
-src/main/java/data/txt/french/old_data.txt
+
+

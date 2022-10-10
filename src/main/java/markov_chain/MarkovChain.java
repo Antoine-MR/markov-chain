@@ -44,7 +44,7 @@ public class MarkovChain {
         int somme = 0;
         for (String i : s){
             int old_somme = somme+1;
-            Integer firstStep = Integer.parseInt(start.get(i).toString());
+            int firstStep = Integer.parseInt(start.get(i).toString());
 
             somme += firstStep;
             ArrayList<Integer> intervalle = new ArrayList<>();
@@ -101,7 +101,9 @@ public class MarkovChain {
             String response_2 = sc.next();
             double t1 = System.currentTimeMillis();
             verbal.info("generating text... \n");
-            System.out.println("\n" + generate(language, response_1, Integer.parseInt(response_2)));
+            String result = generate(language, response_1, Integer.parseInt(response_2));
+            verbal.info(" \ngenerated text :");
+            System.out.println("\n" + result);
             double t2 = System.currentTimeMillis();
             System.out.println("\n\n");
             System.out.println("generated in : " + (t2-t1)/1000 + " seconds");
@@ -110,17 +112,6 @@ public class MarkovChain {
     }
     public static void main(String[] args) {
         verbalSetup();
-        Data.init();
-
-        // demo();
-
-        JsonObject jo = Data.multiLanguagesRelationsJsonObject.get("english");
-
-
-        for (int i = 0 ; i < 1000 ; i++){
-            System.out.println(generate("english", "I", 2000) + "\n\n\n");
-        }
-
-
+        demo();
     }
 }
