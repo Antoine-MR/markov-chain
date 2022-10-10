@@ -5,6 +5,8 @@ import com.google.gson.*;
 import java.io.*;
 import java.lang.reflect.Type;
 import java.util.*;
+import java.util.logging.Logger;
+import formatter.FlexibleFormatter;
 
 public class Data {
 
@@ -14,6 +16,8 @@ public class Data {
 
     public static HashMap<String, JsonObject> multiLanguagesRelationsJsonObject = new HashMap<>();
     public static HashMap<String, HashMap<String, HashMap<String, Integer>>> multiLanguagesRelationsHashMap = new HashMap<>();
+
+    public static Logger verbal = Logger.getLogger(Data.class.getName());
 
 
     /*
@@ -174,6 +178,9 @@ public class Data {
 
         String s = sb.toString();
         // TODO changer le regex pour que le split se fasse sur les epscaes et les virgules
+
+
+
         return List.of(s.split("[ ;]"));
     }
 
@@ -272,8 +279,12 @@ public class Data {
 
 
     public static void init(){
+        FlexibleFormatter.setLogger(verbal);
+        FlexibleFormatter.selectColor(verbal, FlexibleFormatter.Color.GREEN);
         createListingJson();
+        verbal.info("creating json files : done");
         addTexts();
+        verbal.info("initialising json files : done");
     }
 
     private static List<File> jsonArrayToList(JsonArray arr){
